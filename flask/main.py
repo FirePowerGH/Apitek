@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
@@ -14,8 +14,12 @@ sqlConfig = {
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 @app.route("/elev/<elevID>")
-def index(elevID):
+def main(elevID):
     try:
         db = mysql.connector.connect(**sqlConfig)
         cursor = db.cursor()
