@@ -16,8 +16,6 @@ sqlConfig = {
 }
 
 def getBook():
-
-    #on+earth+were+briefly+gorgeous
     rawQuery = input("Skriv navnet på en bok.\n")
 
     query = re.sub(r'\s', '+', rawQuery).lower()
@@ -48,7 +46,13 @@ def insertIntoDb(data):
 
         print(f"Navn: {tittel} \nForfatter: {forf} \nHylle: {hylle}")
 
-        query = "INSERT INTO boker"
+        query = "INSERT INTO boker (tittel, forfatter, hylle) \
+                VALUES (%s, %s, %s)"
+        
+        cursor.execute(query, (tittel, forf, hylle))
+        db.commit()
+
+        print(f"Successfully added {tittel} by {forf}")
     except mysql.connector.Error as e:
         db = None
         return(f"Error: {e}")
