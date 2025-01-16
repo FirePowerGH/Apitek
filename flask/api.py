@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
@@ -13,10 +13,6 @@ sqlConfig = {
 }
 
 app = Flask(__name__)
-
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 @app.route("/elev/<elevID>")
 def main(elevID):
@@ -36,7 +32,3 @@ def main(elevID):
             cursor.close()
             db.close()
     return data
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
