@@ -21,6 +21,7 @@ def getBook():
     query = re.sub(r'\s', '+', rawQuery).lower()
 
     response = requests.get(f"https://openlibrary.org/search.json?title={query}&fields=title,author_name&lang=en&limit=1")
+    print(f"Book not found.")
     if response.status_code == 200:
         data = response.json()
         insertIntoDb(data)
@@ -32,27 +33,30 @@ def insertIntoDb(data):
         db = mysql.connector.connect(**sqlConfig)
         cursor = db.cursor()
 
-        tittel = data["docs"][0]["title"]
-        forf = data["docs"][0]["author_name"][0]
+        try:
+            tittel = data["docs"][0]["title"]
+            forf = data["docs"][0]["author_name"][0]
 
-        tall = randint(1,32)
+            tall = randint(1,32)
 
-        if tall < 10:
-            tall = "0" + str(tall)
-        
-        bokstav = choice(string.ascii_uppercase)
+            if tall < 10:
+                tall = "0" + str(tall)
+            
+            bokstav = choice(string.ascii_uppercase)
 
-        hylle = str(tall) + bokstav
+            hylle = str(tall) + bokstav
 
-        print(f"Navn: {tittel} \nForfatter: {forf} \nHylle: {hylle}")
+            print(f"Navn: {tittel} \nForfatter: {forf} \nHylle: {hylle}")
 
-        query = "INSERT INTO boker (tittel, forfatter, hylle) \
-                VALUES (%s, %s, %s)"
-        
-        cursor.execute(query, (tittel, forf, hylle))
-        db.commit()
+            query = "INSERT INTO boker (tittel, forfatter, hylle) \
+                    VALUES (%s, %s, %s)"
+            
+            cursor.execute(query, (tittel, forf, hylle))
+            db.commit()
 
-        print(f"Successfully added {tittel} by {forf}")
+            print(f"Successfully added {tittel} by {forf}")
+        except IndexError as e:
+            print(f"Book not found.")
     except mysql.connector.Error as e:
         db = None
         return(f"Error: {e}")
