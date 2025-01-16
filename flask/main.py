@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -16,11 +16,19 @@ def login():
 
     if username.lower() == "bibliotekar":
         if password == "bok":
-            return "biblio"
+            return redirect(url_for("biblio"))
         else:
             return "wrong password"
     else:
-        return "Hei, Verden"
+        return redirect(url_for("utlan"))
+
+@app.route("/kontrollpanel")
+def biblio():
+    return render_template("biblio.html")
+
+@app.route("/utlan")
+def utlan():
+    return render_template("utlan.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
