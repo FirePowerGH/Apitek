@@ -78,3 +78,40 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #f1f1f1;
 }
+.bokBox {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin: 10px;
+}
+.bokBox h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+    color: #007BFF;
+}
+.bokBox h3 {
+    font-size: 1.2em;
+    margin: 5px 0;
+    color: #555;
+}
+.bokBox button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.bokBox button:hover {
+    background-color: #0056b3;
+}
+.bok-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}

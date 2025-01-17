@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bøker</title>
 </head>
 <body>
-    <div class="bokBox">
-        <h2>Tittel</h2>
-        <h3>Forfatter</h3>
+    <div class="bok-container">
+        {% for book in books %}
+        <div class="bokBox">
+            <h2>{{ book.title }}</h2>
+            <h3>{{ book.author }}</h3>
+            <button>Lei bok</button>
+        </div>
+        {% endfor %}
     </div>
 </body>
 </html>

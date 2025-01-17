@@ -15,14 +15,14 @@ sqlConfig = {
 app = Flask(__name__)
 
 @app.route("/elev/<elevID>")
-def main(elevID):
+def main(bokID):
     try:
         db = mysql.connector.connect(**sqlConfig)
         cursor = db.cursor()
 
-        query = "SELECT * FROM elever WHERE id = %s;"
+        query = "SELECT * FROM boker WHERE id = %s;"
     
-        cursor.execute(query, (elevID, ))
+        cursor.execute(query, (bokID, ))
         data = cursor.fetchall()
     except mysql.connector.Error as e:
         db = None
