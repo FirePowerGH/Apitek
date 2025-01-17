@@ -22,9 +22,16 @@ def login():
     else:
         return redirect(url_for("utlan"))
 
-@app.route("/kontrollpanel")
+@app.route("/kontrollpanel", methods=["GET", "POST"])
 def biblio():
-    return render_template("biblio.html")
+    tabell = int(request.args.get('tabell', 1))
+    if request.method == "GET":
+        return render_template("biblio.html", tabell=tabell)
+
+    if tabell == 1:
+        return redirect(url_for("biblio", tabell=2))
+    else:
+        return redirect(url_for("biblio", tabell=1))
 
 @app.route("/utlan")
 def utlan():
