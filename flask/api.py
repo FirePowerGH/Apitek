@@ -32,3 +32,25 @@ def main(bokID):
             cursor.close()
             db.close()
     return data
+
+class Database:
+    def __init__(self):
+        pass
+
+    def getBooksFromDb(bokID):
+        try:
+            db = mysql.connector.connect(**sqlConfig)
+            cursor = db.cursor()
+
+            query = "SELECT * FROM boker WHERE id = %s;"
+        
+            cursor.execute(query, (bokID, ))
+            data = cursor.fetchall()
+        except mysql.connector.Error as e:
+            db = None
+            return(f"Error: {e}")
+        finally:
+            if db != None and db.is_connected():
+                cursor.close()
+                db.close()
+        return data

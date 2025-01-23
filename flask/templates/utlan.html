@@ -7,13 +7,21 @@
 </head>
 <body>
     <div class="bok-container">
-        {% for book in books %}
+        <form action="">
+            <input type="text" name="bokid" placeholder="bokID">
+            <button type="submit">Submit</button>
+        </form>
+        <!-- {% for book in books %}
         <div class="bokBox">
             <h2>{{ book.title }}</h2>
             <h3>{{ book.author }}</h3>
             <button>Lei bok</button>
         </div>
-        {% endfor %}
+        {% endfor %} -->
     </div>
+    <h2>Title</h2>
+    <h3>{{ title }}</h3>
+    <h2>Author</h2>
+    <h3>{{ author }}</h3>
 </body>
 </html>

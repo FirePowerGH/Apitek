@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
+from api import Database
 
 app = Flask(__name__)
 
@@ -26,6 +27,16 @@ def login():
 def utlan():
     if request.method == "GET":
         return render_template("utlan.html", )
+    
+    try:
+        bokID = int(request.args.get('bokID', 1))
+        title = Database.getBooksFromDb(bokID)
+        print(title)
+    except Exception as e:
+        return f"Error: {e}"
+    finally:
+        if bokID != None or bokID != "":
+            return render_template("utlan.html", bokID)
 
 @app.route("/kontrollpanel", methods=["GET", "POST"])
 def biblio():
