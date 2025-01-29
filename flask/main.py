@@ -23,20 +23,22 @@ def login():
     else:
         return redirect(url_for("utlan"))
 
-@app.route("/utlan", methods=["GET", "POST"])
+@app.route("/utlan", methods=["GET"])
 def utlan():
-    if request.method == "GET":
-        return render_template("utlan.html", )
-    
+    # if request.method == "GET":
+    #     return render_template("utlan.html", )
+
     try:
-        bokID = int(request.args.get('bokID', 1))
-        title = Database.getBooksFromDb(bokID)
-        print(title)
+        bokID = int(request.args.get('bokid', 1))
+        tittel = Database.getBooksFromDb(bokID)[0][1]
+        forf = Database.getBooksFromDb(bokID)[0][2]
     except Exception as e:
         return f"Error: {e}"
     finally:
-        if bokID != None or bokID != "":
-            return render_template("utlan.html", bokID)
+        if tittel != None or tittel != "" and forf != None or forf != "":
+            return render_template("utlan.html", title=tittel, author=forf)
+        else:
+            return render_template("utlan.html", error="error")
 
 @app.route("/kontrollpanel", methods=["GET", "POST"])
 def biblio():

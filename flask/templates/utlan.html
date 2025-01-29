@@ -7,10 +7,14 @@
 </head>
 <body>
     <div class="bok-container">
-        <form action="">
+        <form action="utlan" method="GET">
             <input type="text" name="bokid" placeholder="bokID">
             <button type="submit">Submit</button>
         </form>
+        {% if error %}
+            <h3>Boken finnes ikke i våre systemer</h3>
+            <h3>{{ error }}</h3>
+        {% endif %}
         <!-- {% for book in books %}
         <div class="bokBox">
             <h2>{{ book.title }}</h2>

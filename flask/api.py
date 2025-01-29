@@ -43,7 +43,7 @@ class Database:
             cursor = db.cursor()
 
             query = "SELECT * FROM boker WHERE id = %s;"
-        
+
             cursor.execute(query, (bokID, ))
             data = cursor.fetchall()
         except mysql.connector.Error as e:
