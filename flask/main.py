@@ -23,9 +23,10 @@ def login():
     else:
         return redirect(url_for("utlan"))
 
-@app.route("/register", methods=["GET"])
-def register():    
-    return Database.fetchNames()
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    names = Database.fetchNames()
+    return render_template("register.html", names=names)
 
 @app.route("/utlan", methods=["GET"])
 def utlan():
