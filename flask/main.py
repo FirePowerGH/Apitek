@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from api import Database
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("login.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -23,6 +23,10 @@ def login():
     else:
         return redirect(url_for("utlan"))
 
+@app.route("/register", methods=["GET"])
+def register():    
+    return Database.fetchNames()
+
 @app.route("/utlan", methods=["GET"])
 def utlan():
     # if request.method == "GET":
@@ -33,7 +37,7 @@ def utlan():
         tittel = Database.getBooksFromDb(bokID)[0][1]
         forf = Database.getBooksFromDb(bokID)[0][2]
     except Exception as e:
-        return f"Error: {e}"
+        return jsonify({"error": f"mysql error: {e}"})
     finally:
         if tittel != None or tittel != "" and forf != None or forf != "":
             return render_template("utlan.html", title=tittel, author=forf)

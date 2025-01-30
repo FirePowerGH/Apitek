@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Registrering</title>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Registrer deg</h2>
+        <form action="/register" method="post">
+            <input type="text" name="username" placeholder="Brukernavn" required>
+            <input type="fullname-list" id="fullname" name="fullname" placeholder="Fullt Navn" required>
+            <datalist id="fullname-list"></datalist>
+            <input type="password" name="password" placeholder="Passord" required>
+            <button type="submit">Registrer</button>
+        </form>
+    </div>
+
+    <script src="/static/search.js"></script>
+</body>
+</html>
