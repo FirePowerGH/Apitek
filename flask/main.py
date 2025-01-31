@@ -25,8 +25,46 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    names = Database.fetchNames()
-    return render_template("register.html", names=names)
+    import mysql.connector
+    from dotenv import load_dotenv
+    from os import getenv
+
+    load_dotenv()
+
+    sqlConfig = {
+        "host": getenv("sqlHost"),
+        "user": getenv("sqlUser"),
+        "password": getenv("sqlPass"),
+        "database": getenv("sqlDb")
+    }
+
+    try:
+        q = request.args.get('q', '')
+        db = mysql.connector.connect(**sqlConfig)
+        cursor = db.cursor()
+
+        if q:
+            try:
+                int(q)
+                query = "SELECT fornavn, etternavn FROM elever WHERE id = %s"
+                cursor.execute(query, (q, ))
+            except ValueError:
+                query = "SELECT fornavn, etternavn FROM elever WHERE fornavn LIKE %s OR etternavn LIKE %s LIMIT 3;"
+                cursor.execute(query, (q, q,))
+
+            # data = [row[0] for row in cursor.fetchall()]
+            data = cursor.fetchall()
+        else:
+            print("No query")
+            return render_template("register.html")
+    except mysql.connector.Error as e:
+        db = None
+        return jsonify(f"Error: {e}")
+    finally:
+        if db != None and db.is_connected():
+            cursor.close()
+            db.close()
+    return jsonify(data)
 
 @app.route("/utlan", methods=["GET"])
 def utlan():

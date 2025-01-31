@@ -1,36 +1,18 @@
-const nameInput = document.getElementById('fullname');
-const nameList = document.getElementById('fullname-list');
-
-nameInput.addEventListener('input', () => {
-    const query = nameInput.value;
-
+document.getElementById("fullname").addEventListener("input", function () {
+    const query = this.value;
     if (query.length > 0) {
-        // Fetch email suggestions from Flask backend
-        fetch(`/register?q=${query}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ query }),
-        })
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                return response.json();
-            })
+        fetch(`/register?q=${query}`)
+            .then(response => response.json()) // Parse JSON from the response
             .then(data => {
-                nameList.innerHTML = ''; // Clear existing options
-                data.forEach(fullname => {
-                    const option = document.createElement('option');
-                    option.value = fullname;
-                    nameList.appendChild(option);
+                console.log("Parsed data:", data); // Debugging
+                const dataList = document.getElementById("fullname-list");
+                dataList.innerHTML = ""; // Clear previous options
+                data.forEach(email => {
+                    const option = document.createElement("option");
+                    option.value = email;
+                    dataList.appendChild(option);
                 });
             })
-            .catch(error => {
-                console.error('Error fetching names:', error);
-                console.error('Response:', error.response);
-            });
-    } else {
-        nameList.innerHTML = '';
-    }});
-    
+            .catch(err => console.error("Error fetching names:", err));
+    }
+});
