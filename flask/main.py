@@ -53,8 +53,7 @@ def register():
                 query = "SELECT fornavn, etternavn FROM elever WHERE fornavn LIKE %s OR etternavn LIKE %s LIMIT 3;"
                 cursor.execute(query, (q, q,))
 
-            # data = [row[0] for row in cursor.fetchall()]
-            data = cursor.fetchall()
+            data = [' '.join(item) for item in cursor.fetchall()]
         else:
             print("No query")
             return render_template("register.html")

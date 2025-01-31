@@ -9,9 +9,8 @@ document.getElementById("fullname").addEventListener("input", function () {
                 dataList.innerHTML = "";
                 data.forEach(name => {
                     const option = document.createElement("option");
-                    option.value = name.join(" ");
+                    option.value = name;
                     dataList.appendChild(option);
-                    console.log(name)
                 });
             })
             .catch(err => console.error("Error fetching names:", err));
@@ -22,3 +21,7 @@ document.getElementById("fullname").addEventListener("input", function () {
         document.getElementById("userpass").style.display = "none";
     }
 });
+
+function username() {
+    print("hey")
+}
