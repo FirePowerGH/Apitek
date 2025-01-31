@@ -49,6 +49,7 @@ def register():
                 query = "SELECT fornavn, etternavn FROM elever WHERE id = %s"
                 cursor.execute(query, (q, ))
             except ValueError:
+                q = f"%{q}%"
                 query = "SELECT fornavn, etternavn FROM elever WHERE fornavn LIKE %s OR etternavn LIKE %s LIMIT 3;"
                 cursor.execute(query, (q, q,))
 
