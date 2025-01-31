@@ -11,10 +11,13 @@
     <div class="register-container">
         <h2>Registrer deg</h2>
         <form action="/register" method="post">
-            <input type="text" name="username" placeholder="Brukernavn" required>
-            <input type="fullname-list" id="fullname" name="fullname" placeholder="Fullt Navn" required>
+            <input type="fullname-list" id="fullname" name="fullname" placeholder="Fullt Navn" list="fullname-list" required>
             <datalist id="fullname-list"></datalist>
-            <input type="password" name="password" placeholder="Passord" required>
+
+            <div id="userpass" style="display: none;">
+                <input type="text" name="username" placeholder="Brukernavn" required>
+                <input type="password" name="password" placeholder="Passord" required>
+            </div>
             <button type="submit">Registrer</button>
         </form>
     </div>

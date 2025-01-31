@@ -23,7 +23,7 @@ def login():
     else:
         return redirect(url_for("utlan"))
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=["GET"])
 def register():
     import mysql.connector
     from dotenv import load_dotenv
