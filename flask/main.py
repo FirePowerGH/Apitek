@@ -23,48 +23,62 @@ def login():
     else:
         return redirect(url_for("utlan"))
 
-@app.route("/register", methods=["GET"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    import mysql.connector
-    from dotenv import load_dotenv
-    from os import getenv
+    if request.method == "GET":
+        import mysql.connector
+        from dotenv import load_dotenv
+        from os import getenv
 
-    load_dotenv()
+        load_dotenv()
 
-    sqlConfig = {
-        "host": getenv("sqlHost"),
-        "user": getenv("sqlUser"),
-        "password": getenv("sqlPass"),
-        "database": getenv("sqlDb")
-    }
+        sqlConfig = {
+            "host": getenv("sqlHost"),
+            "user": getenv("sqlUser"),
+            "password": getenv("sqlPass"),
+            "database": getenv("sqlDb")
+        }
 
-    try:
-        q = request.args.get('q', '')
-        db = mysql.connector.connect(**sqlConfig)
-        cursor = db.cursor()
+        try:
+            q = request.args.get('q', '')
+            db = mysql.connector.connect(**sqlConfig)
+            cursor = db.cursor()
 
-        if q:
-            try:
-                int(q)
-                query = "SELECT fornavn, etternavn FROM elever WHERE id = %s"
-                cursor.execute(query, (q, ))
-            except ValueError:
-                q = f"%{q}%"
-                query = "SELECT fornavn, etternavn FROM elever WHERE fornavn LIKE %s OR etternavn LIKE %s LIMIT 3;"
-                cursor.execute(query, (q, q,))
+            if q:
+                try:
+                    int(q)
+                    query = "SELECT fornavn, etternavn FROM elever WHERE id = %s"
+                    cursor.execute(query, (q, ))
+                except ValueError:
+                    q = f"%{q}%"
+                    query = "SELECT fornavn, etternavn FROM elever WHERE fornavn LIKE %s OR etternavn LIKE %s LIMIT 3;"
+                    cursor.execute(query, (q, q,))
 
-            data = [' '.join(item) for item in cursor.fetchall()]
-        else:
-            print("No query")
-            return render_template("register.html")
-    except mysql.connector.Error as e:
-        db = None
-        return jsonify(f"Error: {e}")
-    finally:
-        if db != None and db.is_connected():
-            cursor.close()
-            db.close()
-    return jsonify(data)
+                data = [' '.join(item) for item in cursor.fetchall()]
+            
+                fullname = data[0].lower().split(" ")
+                print(fullname)
+
+                username = []
+                for char in fullname:
+                    username.extend(char[:2])
+                username.extend(["a", "0", "0"])
+
+                from random import randrange
+                username.append(str(randrange(1, 10)))
+                username = "".join(username)
+                print(username)
+            else:
+                print("No query")
+                return render_template("register.html")
+        except mysql.connector.Error as e:
+            db = None
+            return jsonify(f"Error: {e}")
+        finally:
+            if db != None and db.is_connected():
+                cursor.close()
+                db.close()
+        return jsonify(data)
 
 @app.route("/utlan", methods=["GET"])
 def utlan():
