@@ -12,6 +12,11 @@ document.getElementById("fullname").addEventListener("input", function () {
                     option.value = name;
                     dataList.appendChild(option);
                 });
+                const username = data.username;
+
+                if (username) {
+                    document.getElementById("username").value = username;
+                }
             })
             .catch(err => console.error("Error fetching names:", err));
     }

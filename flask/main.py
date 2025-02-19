@@ -57,7 +57,6 @@ def register():
                 data = [' '.join(item) for item in cursor.fetchall()]
             
                 fullname = data[0].lower().split(" ")
-                print(fullname)
 
                 username = []
                 for char in fullname:
@@ -67,7 +66,10 @@ def register():
                 from random import randrange
                 username.append(str(randrange(1, 10)))
                 username = "".join(username)
-                print(username)
+                data = {
+                    "names": [' '.join(item) for item in cursor.fetchall()],
+                    "username": username
+                }
             else:
                 print("No query")
                 return render_template("register.html")
